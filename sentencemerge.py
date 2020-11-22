@@ -232,7 +232,7 @@ def tatoeba_copy(source, target):
 
 
 begin_time = time()
-shutil.copy(config.anki_db, config.temp_db)
+shutil.copy(config.live_db, config.temp_db)
 
 # as pair of: JP1, EN1; JP2, EN2; JP3, EN3
 # in 6k deck: Furigana, EN and Kanji, EN
@@ -258,7 +258,7 @@ note_types_dict = get_nid_dict()
 
 print(f"\nCompleted in {calculate_time(begin_time)}.\n")
 if input("Update the live Anki database? (y/n)> ").lower() == "y":
-    shutil.copy(config.temp_db, config.anki_db)
+    shutil.copy(config.temp_db, config.live_db)
     print("Live Anki database updated.")
 else:
     print("Live Anki database NOT updated.")

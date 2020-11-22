@@ -297,7 +297,7 @@ def add_common_tag(name_in, dict_in):
         print(f"{matches}/{len(note_list)} Updated.")
 
 
-shutil.copy(config.anki_db, config.temp_db)
+shutil.copy(config.live_db, config.temp_db)
 note_types_dict = get_nid_dict()
 
 # second argument options: config.joyo, config.jin1, config.jin2

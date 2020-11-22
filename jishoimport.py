@@ -487,7 +487,7 @@ note_types_dict = get_nid_dict()
 
 if __name__ == "__main__":
     begin_time = time()
-    shutil.copy(config.anki_db, config.temp_db)
+    shutil.copy(config.live_db, config.temp_db)
 
     # get the categories for vocab
     # process_vocab("Core 6k Optimized")

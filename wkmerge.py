@@ -226,7 +226,7 @@ note_types_dict = get_nid_dict()
 
 if __name__ == "__main__":
     begin_time = time()
-    shutil.copy(config.anki_db, config.temp_db)
+    shutil.copy(config.live_db, config.temp_db)
 
     # already completed
     # copy_notes(source="Advanced Japanese", target="AJ TEMP")
@@ -243,7 +243,7 @@ if __name__ == "__main__":
 
     print(f"\nCompleted in {calculate_time(begin_time)}.\n")
     if input("Update the live Anki database? (y/n)> ").lower() == "y":
-        shutil.copy(config.temp_db, config.anki_db)
+        shutil.copy(config.temp_db, config.live_db)
         print("Live Anki database updated.")
     else:
         print("Live Anki database NOT updated.")

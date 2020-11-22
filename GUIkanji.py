@@ -100,7 +100,7 @@ root.iconbitmap("icon.ico")
 root.geometry("448x600")
 
 # use a separate copy of the DB
-shutil.copy(config.anki_db, config.gui_db)
+shutil.copy(config.live_db, config.gui_db)
 
 note_types_dict = get_nid_dict()
 

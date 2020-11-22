@@ -29,7 +29,7 @@ def copy_files(files_list):
 
 begin_time = time()
 
-shutil.copy(config.anki_db, config.backup_db)
+shutil.copy(config.live_db, config.backup_db)
 
 audio_pos_dict = {"Audio Vocabulary": 8}
 
