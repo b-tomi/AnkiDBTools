@@ -426,7 +426,8 @@ def add_tags_from_db(note_type, tag_in):
                  "col": "Colloquialism ",
                  "food": "Cuisine ",
                  "wasei": "Wasei ",
-                 "exp": "Expression "}
+                 "exp": "Expression ",
+                 "math": "Math "}
     processed_count = 0
     updated_count = 0
     with sqlite3.connect("_common_vocab.db") as conn:
@@ -506,12 +507,12 @@ if __name__ == "__main__":
 
     # get all entries with a specific tag
     # list of tags: https://jisho.org/docs
-    # create_db_for_tag("med")
+    # create_db_for_tag("math")
     # get_vocab_with_tag("med")
 
     # list of useful tags
     tag_list = ["common", "comp", "col", "derog", "chn", "fam", "fem", "bus", "econ", "finc", "food", "ksb", "m-sl",
-                "joc", "male", "vulg", "net-sl", "wasei", "X", "yoji", "sens", "exp", "med"]
+                "joc", "male", "vulg", "net-sl", "wasei", "X", "yoji", "sens", "exp", "med", "math"]
     short_list = ["comp", "exp", "yoji", "col", "wasei", "med"]
     result_list = []
     for tag in tag_list:
