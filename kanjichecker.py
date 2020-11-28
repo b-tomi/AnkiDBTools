@@ -304,6 +304,7 @@ note_types_dict = get_nid_dict()
 compare_kanji("KanjiDamage+", config.joyo)
 compare_kanji("KanjiDamage+", config.jin1)
 compare_kanji("KanjiDamage+", config.jin2)
+print()
 
 # load the word list, 10k, 20k
 # unsorted_dict = count_frequency(load_word_list(config.words10k, config.words20k))
@@ -315,6 +316,13 @@ compare_kanji("KanjiDamage+", config.jin2)
 # load the words list from the imported jisho DB and compare with live DB
 # unsorted_dict_from_db = count_frequency(load_word_list_from_db("common"))
 # compare_frequency("KanjiDamage+", generate_frequency_dict(unsorted_dict_from_db))
+
+# same as above, but for the JLPT N2 and N1 tables
+# to see if there are any kanji still missing from the deck
+unsorted_dict_from_db = count_frequency(load_word_list_from_db("jlpt-n2"))
+compare_frequency("KanjiDamage+", generate_frequency_dict(unsorted_dict_from_db))
+unsorted_dict_from_db = count_frequency(load_word_list_from_db("jlpt-n1"))
+compare_frequency("KanjiDamage+", generate_frequency_dict(unsorted_dict_from_db))
 
 # one-time stuff to add KD_COMMON tag to KD+ deck, using the imported jisho DB
 # unsorted_dict_from_db = count_frequency(load_word_list_from_db("common"))

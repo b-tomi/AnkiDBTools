@@ -427,7 +427,9 @@ def add_tags_from_db(note_type, tag_in):
                  "food": "Cuisine ",
                  "wasei": "Wasei ",
                  "exp": "Expression ",
-                 "math": "Math "}
+                 "math": "Math ",
+                 "jlpt-n2": "JLPT_N2 ",
+                 "jlpt-n1": "JLPT_N1 "}
     processed_count = 0
     updated_count = 0
     with sqlite3.connect("_common_vocab.db") as conn:
@@ -442,7 +444,7 @@ def add_tags_from_db(note_type, tag_in):
             split_line = line[2].split("\x1f")
             for imported_line in imported_list:
                 if split_line[0] == imported_line[0]:
-                    # add "Common" tag to the notes, if missing
+                    # add the relevant tag to the notes, if missing
                     if line[1].find(tags_dict.get(tag_in)) == -1:
                         if line[1] == "":
                             # Anki expects a space in front, make sure it's there
@@ -456,7 +458,7 @@ def add_tags_from_db(note_type, tag_in):
                         # since the dictionary values already include a space
                         print(f"Added {tags_dict.get(tag_in)}tag to {split_line[0]}.")
                         updated_count += 1
-                    imported_list.remove(imported_line)
+                    # imported_list.remove(imported_line)
                     processed_count += 1
         if updated_count > 1:
             conn.commit()
@@ -507,15 +509,17 @@ if __name__ == "__main__":
 
     # get all entries with a specific tag
     # list of tags: https://jisho.org/docs
-    # create_db_for_tag("math")
+    # create_db_for_tag("jlpt-n2")
+    # create_db_for_tag("jlpt-n1")
     # get_vocab_with_tag("med")
 
     # list of useful tags
     tag_list = ["common", "comp", "col", "derog", "chn", "fam", "fem", "bus", "econ", "finc", "food", "ksb", "m-sl",
-                "joc", "male", "vulg", "net-sl", "wasei", "X", "yoji", "sens", "exp", "med", "math"]
-    short_list = ["comp", "exp", "yoji", "col", "wasei", "med"]
+                "joc", "male", "vulg", "net-sl", "wasei", "X", "yoji", "sens", "exp", "med", "math", "jlpt-n2",
+                "jlpt-n1"]
+    short_list = ["math", "jlpt-n2", "jlpt-n1"]
     result_list = []
-    for tag in tag_list:
+    for tag in short_list:
         result_list.append(get_vocab_with_tag(tag))
     print()
     for result in result_list:
