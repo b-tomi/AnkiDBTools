@@ -250,10 +250,10 @@ if __name__ == "__main__":
 
 # outdated
 # ========
-# anki_db = Path("collection.anki2.wkorig")
+# live_db = Path("collection.anki2.wkorig")
 # temp_db = Path("collection.anki2.wkupdated")
 #
-# shutil.copy(anki_db, temp_db)
+# shutil.copy(live_db, temp_db)
 #
 # # note_type_id = 3895406222
 #

@@ -554,7 +554,7 @@ if __name__ == "__main__":
     print(f"\nCompleted in {calculate_time(begin_time)}.\n")
 
     # if input("Update the live Anki database? (y/n)> ").lower() == "y":
-    #     shutil.copy(config.temp_db, config.anki_db)
+    #     shutil.copy(config.temp_db, config.live_db)
     #     print("Live Anki database updated.")
     # else:
     #     print("Live Anki database NOT updated.")

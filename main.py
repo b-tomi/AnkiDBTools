@@ -452,11 +452,18 @@ wkmerge()
 vocabmerge()
 
 # ignore the katakana characters that are used as radicals, and the obsolete notes
+# used when generating the EXISTING kanji list from the kanji deck
 ignored_characters_list = ["L", "マ", "ラ", "ヰ", "x"]
 
-# include additional characters to ignore when generating the missing kanji list
-# Note: it was too long, just added most of them to the text file
+# include space characters to ignore when generating the missing kanji list
 kana_list = get_kana_list(config.kana) + [" ", "　"]
+# misc characters from some notes that are not kana but also need to be excluded
+# used when generating the MISSING kanji list, so needs to be separate from the ignored_characters_list above
+misc_chars = "ゝ゛゜ヽ゛゜ーＴ〇４１５０９10（）ABＹ！／LINEｘ962D８ＰＢＷ/ＳＥＭTPO．ＩＯＣＲＤＧ<sub>・(R)~VMalt.r,3CG２３ＪＫＬ" \
+             "々～〜…？!，、。Ｆ；SＡＮＵ７６ＸΑΒΓΔΩ＆ＶＨｉ"
+# probably it's not even necessary to still ignore some of these, but might as well add them anyway
+for misc_char in misc_chars:
+    kana_list.append(misc_char)
 
 keywords_pos_dict = {"Advanced Japanese": 10,
                      "WK Ultimate Vocab": 11,
