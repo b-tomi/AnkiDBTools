@@ -443,7 +443,9 @@ def add_tags_from_db(note_type, tag_in):
         for line in notes_list:
             split_line = line[2].split("\x1f")
             for imported_line in imported_list:
-                if split_line[0] == imported_line[0]:
+                # either the vocab field matches, or the "Other forms" one, to include words written in kana
+                # notes with multiple forms in the "Other forms" field will have to be checked manually
+                if split_line[0] == imported_line[0] or split_line[3] == imported_line[0]:
                     # add the relevant tag to the notes, if missing
                     if line[1].find(tags_dict.get(tag_in)) == -1:
                         if line[1] == "":
@@ -519,7 +521,7 @@ if __name__ == "__main__":
                 "jlpt-n1"]
     short_list = ["math", "jlpt-n2", "jlpt-n1"]
     result_list = []
-    for tag in short_list:
+    for tag in tag_list:
         result_list.append(get_vocab_with_tag(tag))
     print()
     for result in result_list:
