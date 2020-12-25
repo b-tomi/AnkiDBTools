@@ -402,6 +402,7 @@ def process_vocab_with_tag(tag_in, update=False):
         if vocab_count > 0:
             conn.commit()
         print(f"Processed {vocab_count} entries in {calculate_time(start_time)} with tag {tag_in}.")
+        return vocab_count
 
 
 def format_meanings(list_in):
@@ -529,8 +530,10 @@ if __name__ == "__main__":
     print()
 
     # fill in the meanings and cats fields
+    total = 0
     for tag in tag_list:
-        process_vocab_with_tag(tag, update=False)
+        total += process_vocab_with_tag(tag, update=False)
+    print(f"Processed {total} entries in total.")
 
     # compare the common list with the ones in anki
     # optionally also add a tag to the notes
