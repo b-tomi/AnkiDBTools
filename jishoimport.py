@@ -470,6 +470,50 @@ def add_tags_from_db(note_type, tag_in):
     return imported_list
 
 
+def add_tags_from_files(name_in):
+    updated_count = 0
+    # load the lists from the text files
+    n5_list = get_kanji_list(config.jlpt_n5)
+    n4_list = get_kanji_list(config.jlpt_n4)
+    n3_list = get_kanji_list(config.jlpt_n3)
+    n2_list = get_kanji_list(config.jlpt_n2)
+    n1_list = get_kanji_list(config.jlpt_n1)
+    with sqlite3.connect(config.temp_db) as conn:
+        command = f"SELECT id, tags, flds FROM notes WHERE mid = {get_mid(name_in, note_types_dict)}"
+        cursor = conn.execute(command)
+        note_list = list(cursor.fetchall())
+        for note_line in note_list:
+            updated = False
+            split_note_line = note_line[2].split("\x1f")
+            # if missing, add the corresponding tag
+            if split_note_line[0] in n5_list and note_line[1].find("KD_JLPT_N5") == -1:
+                new_tag = f"{note_line[1]} KD_JLPT_N5 "
+                command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {note_line[0]}"
+                updated = True
+            elif split_note_line[0] in n4_list and note_line[1].find("KD_JLPT_N4") == -1:
+                new_tag = f"{note_line[1]} KD_JLPT_N4 "
+                command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {note_line[0]}"
+                updated = True
+            elif split_note_line[0] in n3_list and note_line[1].find("KD_JLPT_N3") == -1:
+                new_tag = f"{note_line[1]} KD_JLPT_N3 "
+                command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {note_line[0]}"
+                updated = True
+            elif split_note_line[0] in n2_list and note_line[1].find("KD_JLPT_N2") == -1:
+                new_tag = f"{note_line[1]} KD_JLPT_N2 "
+                command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {note_line[0]}"
+                updated = True
+            elif split_note_line[0] in n1_list and note_line[1].find("KD_JLPT_N1") == -1:
+                new_tag = f"{note_line[1]} KD_JLPT_N1 "
+                command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {note_line[0]}"
+                updated = True
+            if updated:
+                conn.execute(command)
+                updated_count += 1
+        if updated_count > 1:
+            conn.commit()
+            print(f"Added JLPT level tags to {updated_count} notes.")
+
+
 def main():
     # get nanori readings for kanji
     process_kanji_nanori("KanjiDamage+", update=False)
@@ -534,6 +578,9 @@ if __name__ == "__main__":
     for tag in tag_list:
         total += process_vocab_with_tag(tag, update=False)
     print(f"Processed {total} entries in total.")
+
+    # add JLPT level tags to KD notes from the text files, not really necessary to run more than once
+    # add_tags_from_files("KanjiDamage+")
 
     # compare the common list with the ones in anki
     # optionally also add a tag to the notes

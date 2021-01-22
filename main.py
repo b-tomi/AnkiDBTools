@@ -283,16 +283,6 @@ def generate_missing_txt(dict_in):
         print(ex)
 
 
-def get_kanji_list(txt_file_in):
-    list_out = []
-    with codecs.open(txt_file_in, encoding='utf-8') as file:
-        for line in file:
-            for char in line:
-                if char != "\r" and char != "\n":
-                    list_out.append(char)
-    return list_out
-
-
 def process_sentences(source, target):
     with sqlite3.connect(config.temp_db) as conn:
         start_time = time()

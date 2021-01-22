@@ -11,7 +11,7 @@ It's built around a specific deck and cards with a specific layout, so **it's un
 * generate content for certain fields from data in other cards *(e.g. from Kanji to vocab entries)*
 * remove leftover formatting from copy-pasting from various sources *(mostly [weblio.jp](https://ejje.weblio.jp))*
 * add custom formatting to specific fields in certain cards
-* add a specific tag to certain cards  
+* add specific tags to certain cards *(e.g. JLPT level to Kanji)*
 * retrieve various information from external sources *(e.g. [jisho.org](https://jisho.org))* and add it to certain cards 
 * retrieve words lists from external sources like [wiktionary.org](https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists) and top request lists from [linguee.com](https://www.linguee.com/japanese-english)
 * generate a list of most used characters from such word lists and insert their rank to certain cards

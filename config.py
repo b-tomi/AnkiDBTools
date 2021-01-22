@@ -29,6 +29,13 @@ words10k = Path(project_dir / "Words10k.txt")
 # https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists/Japanese10001-20000
 words20k = Path(project_dir / "Words20k.txt")
 
+# kanji lists by JLPT levels
+jlpt_n5 = Path(project_dir / "KanjiListJLPTN5.txt")
+jlpt_n4 = Path(project_dir / "KanjiListJLPTN4.txt")
+jlpt_n3 = Path(project_dir / "KanjiListJLPTN3.txt")
+jlpt_n2 = Path(project_dir / "KanjiListJLPTN2.txt")
+jlpt_n1 = Path(project_dir / "KanjiListJLPTN1.txt")
+
 # output text files
 cleanup_txt = Path(project_dir / "OUTPUT-CleanList.txt")
 kanji_txt = Path(project_dir / "OUTPUT-KanjiList.txt")

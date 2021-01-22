@@ -305,6 +305,12 @@ compare_kanji("KanjiDamage+", config.joyo)
 compare_kanji("KanjiDamage+", config.jin1)
 compare_kanji("KanjiDamage+", config.jin2)
 print()
+compare_kanji("KanjiDamage+", config.jlpt_n5)
+compare_kanji("KanjiDamage+", config.jlpt_n4)
+compare_kanji("KanjiDamage+", config.jlpt_n3)
+compare_kanji("KanjiDamage+", config.jlpt_n2)
+compare_kanji("KanjiDamage+", config.jlpt_n1)
+print()
 
 # load the word list, 10k, 20k
 # unsorted_dict = count_frequency(load_word_list(config.words10k, config.words20k))

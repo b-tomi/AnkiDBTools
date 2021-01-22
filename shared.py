@@ -1,6 +1,7 @@
 import config
 import sqlite3
 from time import time
+import codecs
 
 
 def get_nid_dict():
@@ -100,3 +101,13 @@ def cards_toggle_suspend(note_id, suspend=False):
                     command = f"UPDATE cards SET queue = 0 WHERE id = {card[0]}"
             conn.execute(command)
         conn.commit()
+
+
+def get_kanji_list(txt_file_in):
+    list_out = []
+    with codecs.open(txt_file_in, encoding='utf-8') as file:
+        for line in file:
+            for char in line:
+                if char != "\r" and char != "\n":
+                    list_out.append(char)
+    return list_out
