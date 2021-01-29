@@ -127,7 +127,7 @@ def get_vocab_with_tag(tag_in):
         # floor division - throws away anything past the decimal point
         total_pages = int(total_words_text) // 20
         for page in range(1, total_pages + 1):
-            response = requests.get(f"https://jisho.org/search/%23word%20%23{tag_in}?page= + {page}")
+            response = requests.get(f"https://jisho.org/search/%23word%20%23{tag_in}?page={page}")
             soup = BeautifulSoup(response.text, "html.parser")
             page_list = soup.select(".concept_light")
             for entry in page_list:
@@ -453,8 +453,9 @@ def add_tags_from_db(note_type, tag_in):
                             # Anki expects a space in front, make sure it's there
                             new_tag = f" {tags_dict.get(tag_in)}"
                         else:
-                            # existing entries should already have the extra space
-                            new_tag = f"{line[1]} {tags_dict.get(tag_in)}"
+                            # existing entries should already have the extra space,
+                            # both at the beginning and at the end
+                            new_tag = f"{line[1]}{tags_dict.get(tag_in)}"
                         command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {line[0]}"
                         conn.execute(command)
                         # print for reference, the missing space before "tag" is intentional
@@ -486,24 +487,24 @@ def add_tags_from_files(name_in):
             updated = False
             split_note_line = note_line[2].split("\x1f")
             # if missing, add the corresponding tag
-            if split_note_line[0] in n5_list and note_line[1].find("KD_JLPT_N5") == -1:
-                new_tag = f"{note_line[1]} KD_JLPT_N5 "
+            if split_note_line[0] in n5_list and note_line[1].find("JLPT_N5") == -1:
+                new_tag = f"{note_line[1]}JLPT_N5 "
                 command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {note_line[0]}"
                 updated = True
-            elif split_note_line[0] in n4_list and note_line[1].find("KD_JLPT_N4") == -1:
-                new_tag = f"{note_line[1]} KD_JLPT_N4 "
+            elif split_note_line[0] in n4_list and note_line[1].find("JLPT_N4") == -1:
+                new_tag = f"{note_line[1]}JLPT_N4 "
                 command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {note_line[0]}"
                 updated = True
-            elif split_note_line[0] in n3_list and note_line[1].find("KD_JLPT_N3") == -1:
-                new_tag = f"{note_line[1]} KD_JLPT_N3 "
+            elif split_note_line[0] in n3_list and note_line[1].find("JLPT_N3") == -1:
+                new_tag = f"{note_line[1]}JLPT_N3 "
                 command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {note_line[0]}"
                 updated = True
-            elif split_note_line[0] in n2_list and note_line[1].find("KD_JLPT_N2") == -1:
-                new_tag = f"{note_line[1]} KD_JLPT_N2 "
+            elif split_note_line[0] in n2_list and note_line[1].find("JLPT_N2") == -1:
+                new_tag = f"{note_line[1]}JLPT_N2 "
                 command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {note_line[0]}"
                 updated = True
-            elif split_note_line[0] in n1_list and note_line[1].find("KD_JLPT_N1") == -1:
-                new_tag = f"{note_line[1]} KD_JLPT_N1 "
+            elif split_note_line[0] in n1_list and note_line[1].find("JLPT_N1") == -1:
+                new_tag = f"{note_line[1]}JLPT_N1 "
                 command = f"UPDATE notes SET tags = '{fix_sql(new_tag)}' WHERE id = {note_line[0]}"
                 updated = True
             if updated:
