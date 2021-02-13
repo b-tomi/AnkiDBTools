@@ -6,7 +6,7 @@ Created as I was getting into Python, before taking a proper course, meaning it 
 
 It's built around a specific deck and cards with a specific layout, so **it's unlikely to be useful other than as a reference**. 
 
-### List of features
+## List of features
 * copy content between cards with different layouts, such as example sentences
 * generate content for certain fields from data in other cards *(e.g. from Kanji to vocab entries)*
 * remove leftover formatting from copy-pasting from various sources *(mostly [weblio.jp](https://ejje.weblio.jp))*
@@ -22,3 +22,6 @@ It's built around a specific deck and cards with a specific layout, so **it's un
 As of now, I've been running main.py on a daily basis, to automate the boring stuff. *(Great book by [Al Sweigart](https://twitter.com/AlSweigart), by the way, not just for beginners.)*
 
 Again, this was written for a specific deck and cards with a specific layout, so **it's unlikely to be useful other than as a reference**.
+
+## License
+AnkiDBTools is licensed under the [MIT License](https://en.wikipedia.org/wiki/MIT_License).
