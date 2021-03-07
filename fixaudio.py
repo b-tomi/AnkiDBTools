@@ -1,5 +1,6 @@
-from shared import *
 import shutil
+
+from shared import *
 
 
 def get_files_list(source, tag=""):

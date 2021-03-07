@@ -1,5 +1,6 @@
-from shared import *
 import shutil
+
+from shared import *
 
 
 def copy_notes(source, target):

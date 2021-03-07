@@ -1,7 +1,9 @@
-from shared import *
 import shutil
+
 import requests
 from bs4 import BeautifulSoup
+
+from shared import *
 
 
 def get_categories(word_in):

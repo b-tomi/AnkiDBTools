@@ -1,6 +1,7 @@
-from shared import *
 import shutil
 from tkinter import *
+
+from shared import *
 
 
 def lookup_vocab(from_clipboard=False):

@@ -1,6 +1,6 @@
-from shared import *
 import shutil
-import codecs
+
+from shared import *
 from jishoimport import main as jishoimport
 from wkmerge import main as wkmerge
 from vocabmerge import main as vocabmerge

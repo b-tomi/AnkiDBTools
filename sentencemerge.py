@@ -1,5 +1,6 @@
-from shared import *
 import shutil
+
+from shared import *
 
 
 def process_sentences(source, target):

@@ -1,8 +1,9 @@
-from shared import *
 import shutil
-import codecs
+
 import requests
 from bs4 import BeautifulSoup
+
+from shared import *
 
 
 def compare_kanji(name_in, list_in):
