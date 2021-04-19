@@ -1,7 +1,8 @@
-import config
 import sqlite3
 from time import time
 import codecs
+
+import config
 
 
 def get_nid_dict():

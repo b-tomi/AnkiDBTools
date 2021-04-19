@@ -80,10 +80,12 @@ def generate_txt(kanji_list_in, formatted=False):
         else:
             text_out += line[0]
     try:
-        config.kanji_txt.write_text(text_out, "utf-8")
+        with open(config.kanji_txt, mode="w", encoding="utf8") as f:
+            f.write(text_out)
+    except IOError as err:
+        print(err)
+    else:
         print(f"{len(kanji_list_in)} kanji found. Text file generated.")
-    except UnicodeError as ex:
-        print(ex)
 
 
 def pre_cleanup():
@@ -233,10 +235,12 @@ def find_html_tags(list_in):
             found += 1
     if found > 0:
         try:
-            config.cleanup_txt.write_text(text_out, "utf-8")
+            with open(config.cleanup_txt, mode="w", encoding="utf8") as f:
+                f.write(text_out)
+        except IOError as err:
+            print(err)
+        else:
             print(f"{found} lines with HTML tags found. Text file generated.")
-        except UnicodeError as ex:
-            print(ex)
     else:
         print("No lines with HTML tags found.")
 
@@ -277,10 +281,12 @@ def generate_missing_txt(dict_in):
     try:
         text_out = f"Found {count_list[0]} Joyo, {count_list[1]} Jinmeiyo, {count_list[2]} Jinmeiyo-traditional " \
                     f"and {count_list[3]} other Kanji.\n" + text_out
-        config.missing_txt.write_text(text_out, "utf-8")
+        with open(config.missing_txt, mode="w", encoding="utf8") as f:
+            f.write(text_out)
+    except IOError as err:
+        print(err)
+    else:
         print(f"{len(dict_in)} missing kanji found. Text file generated.")
-    except UnicodeError as ex:
-        print(ex)
 
 
 def process_sentences(source, target):
