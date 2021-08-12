@@ -129,31 +129,37 @@ def get_vocab_with_tag(tag_in):
         # floor division - throws away anything past the decimal point
         total_pages = int(total_words_text) // 20
         for page in range(1, total_pages + 1):
-            response = requests.get(f"https://jisho.org/search/%23word%20%23{tag_in}?page={page}")
-            soup = BeautifulSoup(response.text, "html.parser")
-            page_list = soup.select(".concept_light")
-            for entry in page_list:
-                soup2 = BeautifulSoup(str(entry), "html.parser")
-                vocab_list = soup2.select(".text")
-                meaning_list = soup2.select(".meaning-meaning")
-                category_list = soup2.select(".meaning-tags")
-                vocab = str(vocab_list[0].text.strip())
-                if vocab not in fixed_list:
-                    print(vocab)
-                    definition = str(meaning_list[0].text.strip())
-                    # in the rare case there isn't any category
-                    if len(category_list) == 0:
-                        category = "None"
-                    else:
-                        category = str(category_list[0].text.strip())
-                    full = str(entry)
-                    sql_command = f"INSERT INTO '{tag_in}' VALUES ('{fix_sql(vocab)}', '{fix_sql(definition)}'," \
-                                  f"'{fix_sql(category)}', '{fix_sql(full)}', '', '')"
-                    conn.execute(sql_command)
-                    # add to the list, so it doesn't get added to be DB again
-                    fixed_list.append(vocab)
-                    vocab_count += 1
-            conn.commit()
+            # in case of a rare connection error
+            try:
+                response = requests.get(f"https://jisho.org/search/%23word%20%23{tag_in}?page={page}")
+            except ConnectionError as err:
+                print(err)
+            else:
+                soup = BeautifulSoup(response.text, "html.parser")
+                page_list = soup.select(".concept_light")
+                for entry in page_list:
+                    soup2 = BeautifulSoup(str(entry), "html.parser")
+                    vocab_list = soup2.select(".text")
+                    meaning_list = soup2.select(".meaning-meaning")
+                    category_list = soup2.select(".meaning-tags")
+                    vocab = str(vocab_list[0].text.strip())
+                    if vocab not in fixed_list:
+                        print(vocab)
+                        definition = str(meaning_list[0].text.strip())
+                        # in the rare case there isn't any category
+                        category = "None" if len(category_list) == 0 else str(category_list[0].text.strip())
+                        # if len(category_list) == 0:
+                        #     category = "None"
+                        # else:
+                        #     category = str(category_list[0].text.strip())
+                        full = str(entry)
+                        sql_command = f"INSERT INTO '{tag_in}' VALUES ('{fix_sql(vocab)}', '{fix_sql(definition)}'," \
+                                      f"'{fix_sql(category)}', '{fix_sql(full)}', '', '')"
+                        conn.execute(sql_command)
+                        # add to the list, so it doesn't get added to be DB again
+                        fixed_list.append(vocab)
+                        vocab_count += 1
+                conn.commit()
             print(f"Tag {tag_in} | Page {page}/{total_pages} | Total new entries {vocab_count}.")
         print(f"Found {vocab_count} new entries in {calculate_time(start_time)} with tag {tag_in}.")
         return tag_in, vocab_count, total_words_text
@@ -354,9 +360,8 @@ def process_kanji_nanori(name_in, update=False):
                         split_kanji_line[field_pos] = "<span style=\"opacity:0\">-</span>"
                     else:
                         # print for reference
-                        print(
-                            f"{split_kanji_line[0]}: {split_kanji_line[field_pos]} "
-                            f"=> {new_nanori} [#{processed_count}]")
+                        print(f"{split_kanji_line[0]}: {split_kanji_line[field_pos]} => {new_nanori} "
+                              f"[#{processed_count}]")
                         split_kanji_line[field_pos] = new_nanori
                     new_line = "\x1f".join(split_kanji_line)
                     command = f"UPDATE notes SET flds = '{fix_sql(new_line)}' WHERE id = '{str(kanji_line[0])}'"
