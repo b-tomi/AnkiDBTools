@@ -425,7 +425,7 @@ def format_meanings(list_in):
 def add_tags_from_db(note_type, tag_in):
     start_time = time()
     # list of tables for dict
-    # "common", "comp", "col", "derog", "chn", "fam", "fem", "bus", "econ", "finc", "food", "ksb", "m-sl",
+    # "common", "comp", "col", "chn", "fam", "derog", "fem", "bus", "econ", "finc", "food", "ksb", "m-sl",
     # "joc", "male", "vulg", "net-sl", "wasei", "X", "yoji", "sens", "exp", "med"
     # the extra space after is needed for Anki
     # TODO: Add whatever else will be needed
