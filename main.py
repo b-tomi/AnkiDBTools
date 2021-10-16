@@ -326,41 +326,42 @@ def process_sentences(source, target):
                                       f"WHERE id = '{str(tgt_line[0])}'"
                             conn.execute(command)
                             notes_count += 1
-                else:
-                    # also include the entries with "する"
-                    if split_src_line[0] == split_tgt_line[0] or (split_src_line[0] == split_tgt_line[0] + "する"):
-                        changed = False
-                        # find the next next (if any) empty position for the sentence
-                        f_pos = find_next_position(tgt_line[1], tgt_fld_list)
-                        # if all fields empty, copy all 6 fields (even if empty?)
-                        if f_pos == tgt_fld_list[0] and split_src_line[src_fld_list[0] - 1] != "":
-                            # so 0+1 unless 0 empty then do 2+3
-                            # also add <b> </b> around the word to JP sentences
-                            # only works for lines with no furigana
-                            split_tgt_line[f_pos - 1] = mk_bold(split_src_line[src_fld_list[0] - 1], split_src_line[0])
-                            split_tgt_line[f_pos] = split_src_line[src_fld_list[1] - 1]
-                            split_tgt_line[f_pos + 1] = mk_bold(split_src_line[src_fld_list[2] - 1], split_src_line[0])
-                            split_tgt_line[f_pos + 2] = split_src_line[src_fld_list[3] - 1]
-                            split_tgt_line[f_pos + 3] = mk_bold(split_src_line[src_fld_list[4] - 1], split_src_line[0])
-                            split_tgt_line[f_pos + 4] = split_src_line[src_fld_list[5] - 1]
-                            changed = True
-                        # if 2 fields taken, copy first 4 fields (even if empty?)
-                        elif f_pos == tgt_fld_list[2] and split_src_line[src_fld_list[0] - 1] != "":
-                            split_tgt_line[f_pos - 1] = mk_bold(split_src_line[src_fld_list[0] - 1], split_src_line[0])
-                            split_tgt_line[f_pos] = split_src_line[src_fld_list[1] - 1]
-                            split_tgt_line[f_pos + 1] = mk_bold(split_src_line[src_fld_list[2] - 1], split_src_line[0])
-                            split_tgt_line[f_pos + 2] = split_src_line[src_fld_list[3] - 1]
-                            changed = True
-                        # if 4 fields taken, copy first 2 fields (even if empty?)
-                        elif f_pos == tgt_fld_list[4] and split_src_line[src_fld_list[0] - 1] != "":
-                            split_tgt_line[f_pos - 1] = mk_bold(split_src_line[src_fld_list[0] - 1], split_src_line[0])
-                            split_tgt_line[f_pos] = split_src_line[src_fld_list[1] - 1]
-                            changed = True
-                        if changed:
-                            new_line = "\x1f".join(split_tgt_line)
-                            command = f"UPDATE notes SET flds = '{fix_sql(new_line)}' WHERE id = {tgt_line[0]}"
-                            conn.execute(command)
-                            notes_count += 1
+                # no longer used
+                # else:
+                #     # also include the entries with "する"
+                #     if split_src_line[0] == split_tgt_line[0] or (split_src_line[0] == split_tgt_line[0] + "する"):
+                #         changed = False
+                #         # find the next next (if any) empty position for the sentence
+                #         f_pos = find_next_position(tgt_line[1], tgt_fld_list)
+                #         # if all fields empty, copy all 6 fields (even if empty?)
+                #         if f_pos == tgt_fld_list[0] and split_src_line[src_fld_list[0] - 1] != "":
+                #             # so 0+1 unless 0 empty then do 2+3
+                #             # also add <b> </b> around the word to JP sentences
+                #             # only works for lines with no furigana
+                #             split_tgt_line[f_pos - 1] = mk_bold(split_src_line[src_fld_list[0] - 1], split_src_line[0])
+                #             split_tgt_line[f_pos] = split_src_line[src_fld_list[1] - 1]
+                #             split_tgt_line[f_pos + 1] = mk_bold(split_src_line[src_fld_list[2] - 1], split_src_line[0])
+                #             split_tgt_line[f_pos + 2] = split_src_line[src_fld_list[3] - 1]
+                #             split_tgt_line[f_pos + 3] = mk_bold(split_src_line[src_fld_list[4] - 1], split_src_line[0])
+                #             split_tgt_line[f_pos + 4] = split_src_line[src_fld_list[5] - 1]
+                #             changed = True
+                #         # if 2 fields taken, copy first 4 fields (even if empty?)
+                #         elif f_pos == tgt_fld_list[2] and split_src_line[src_fld_list[0] - 1] != "":
+                #             split_tgt_line[f_pos - 1] = mk_bold(split_src_line[src_fld_list[0] - 1], split_src_line[0])
+                #             split_tgt_line[f_pos] = split_src_line[src_fld_list[1] - 1]
+                #             split_tgt_line[f_pos + 1] = mk_bold(split_src_line[src_fld_list[2] - 1], split_src_line[0])
+                #             split_tgt_line[f_pos + 2] = split_src_line[src_fld_list[3] - 1]
+                #             changed = True
+                #         # if 4 fields taken, copy first 2 fields (even if empty?)
+                #         elif f_pos == tgt_fld_list[4] and split_src_line[src_fld_list[0] - 1] != "":
+                #             split_tgt_line[f_pos - 1] = mk_bold(split_src_line[src_fld_list[0] - 1], split_src_line[0])
+                #             split_tgt_line[f_pos] = split_src_line[src_fld_list[1] - 1]
+                #             changed = True
+                #         if changed:
+                #             new_line = "\x1f".join(split_tgt_line)
+                #             command = f"UPDATE notes SET flds = '{fix_sql(new_line)}' WHERE id = {tgt_line[0]}"
+                #             conn.execute(command)
+                #             notes_count += 1
         if notes_count > 0:
             conn.commit()
             print(f"{notes_count}/{len(src_list)} sentences processed from {source} in {calculate_time(start_time)}.")
@@ -497,8 +498,10 @@ pre_cleanup()
 # copy example sentences from source to target notes, then clean up duplicates so there's room for more
 process_sentences(source="Core 6k Optimized", target="Advanced Japanese")
 fix_duplicates("Advanced Japanese")
-process_sentences(source="WK Ultimate Vocab", target="Advanced Japanese")
-fix_duplicates("Advanced Japanese")
+
+# now obsolete, all useful example sentences have been processed already
+# process_sentences(source="WK Ultimate Vocab", target="Advanced Japanese")
+# fix_duplicates("Advanced Japanese")
 
 #  clean up example sentences, etc.
 cleanup()
