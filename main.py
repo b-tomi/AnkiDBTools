@@ -485,7 +485,7 @@ generate_txt(kanji_list, formatted=True)
 missing_kanji_dict = {}
 
 process_vocab("Advanced Japanese", overwrite=True)
-process_vocab("WK Ultimate Vocab", overwrite=True)
+# process_vocab("WK Ultimate Vocab", overwrite=True)
 process_vocab("Core 6k Optimized", overwrite=True)
 
 # save the missing kanji list in a text file
