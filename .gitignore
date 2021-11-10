@@ -1,3 +1,4 @@
+/.idea/
 /__pycache__/
 /build/
 /dist/
@@ -16,3 +17,4 @@
 /OUTPUT-CleanList.txt
 /OUTPUT-KanjiList.txt
 /OUTPUT-MissingKanjiList.txt
+/Pipfile
