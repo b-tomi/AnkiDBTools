@@ -130,52 +130,6 @@ def fix_duplicates(note_type):
             print("No duplicates found.")
 
 
-# find and remove cringy example sentences
-def purge_cringe(target):
-    with sqlite3.connect(config.temp_db) as conn:
-        start_time = time()
-        notes_count = 0
-        fields_list = sentences_pos_dict.get(target)
-        sql_command = f"SELECT id, flds FROM notes WHERE mid = {get_mid(target, note_types_dict)}"
-        cursor = conn.execute(sql_command)
-        notes_list = list(cursor.fetchall())
-        for line in notes_list:
-            changed = False
-            split_line = line[1].split("\x1f")
-            # see if the EN line is cringy, and delete both lines
-            if find_cringe(split_line[fields_list[1] - 1]):
-                split_line[fields_list[0] - 1] = ""
-                split_line[fields_list[1] - 1] = ""
-                changed = True
-            if find_cringe(split_line[fields_list[3] - 1]):
-                split_line[fields_list[2] - 1] = ""
-                split_line[fields_list[3] - 1] = ""
-                changed = True
-            if find_cringe(split_line[fields_list[5] - 1]):
-                split_line[fields_list[4] - 1] = ""
-                split_line[fields_list[5] - 1] = ""
-                changed = True
-            if changed:
-                # make sure that the example sentences fill the earlier fields
-                new_line = "\x1f".join(move_sentences_up(split_line, fields_list))
-                command = f"UPDATE notes SET flds = '{fix_sql(new_line)}' WHERE id = {line[0]}"
-                conn.execute(command)
-                notes_count += 1
-        if notes_count > 0:
-            conn.commit()
-            print(f"{notes_count}/{len(notes_list)} notes purged of cringe in {target} "
-                  f"in {calculate_time(start_time)}.")
-        else:
-            print(f"No cringy example sentences in {target}.")
-
-
-def find_cringe(line_in):
-    if line_in.find("Tofugu") > -1 or line_in.find("Koichi") > -1 or line_in.find("Viet") > -1 \
-            or line_in.find("Fugu") > -1 or line_in.find("WaniKani") > -1 or line_in.find("TextFugu") > -1:
-        return True
-    return False
-
-
 def move_sentences_up(line_list_in, field_list_in):
     # if empty, fill the lines for the first example sentence
     if line_list_in[field_list_in[0] - 1] == "" and line_list_in[field_list_in[2] - 1] != "":
@@ -248,10 +202,6 @@ note_types_dict = get_nid_dict()
 # process_sentences(source="WK Ultimate Vocab", target="Advanced Japanese")
 #
 # fix_duplicates("Advanced Japanese")
-
-# already cleaned, no need to run these again, really (for now)
-# purge_cringe("WK Ultimate Vocab")
-# purge_cringe("Advanced Japanese")
 
 # already done, copy to the tatoeba listening deck
 # tatoeba_copy(source="Core 6k Optimized", target="Audio Listening")
